@@ -103,6 +103,6 @@ public class DelegateConsistencyServiceImpl implements ConsistencyService {
     }
     
     private ConsistencyService mapConsistencyService(String key) {
-        return KeyBuilder.matchEphemeralKey(key) ? ephemeralConsistencyService : persistentConsistencyService;
+        return KeyBuilder.matchEphemeralKey(key) ? ephemeralConsistencyService : persistentConsistencyService; // com.alibaba.nacos.naming.iplist.ephemeral
     }
 }

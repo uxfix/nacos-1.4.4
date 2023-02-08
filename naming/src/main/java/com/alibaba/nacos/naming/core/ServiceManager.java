@@ -466,6 +466,7 @@ public class ServiceManager implements RecordListener<Service> {
      */
     public void createServiceIfAbsent(String namespaceId, String serviceName, boolean local, Cluster cluster)
             throws NacosException {
+        // serviceName = 组名称@@服务名称
         Service service = getService(namespaceId, serviceName);
         if (service == null) {
             
@@ -473,6 +474,7 @@ public class ServiceManager implements RecordListener<Service> {
             service = new Service();
             service.setName(serviceName);
             service.setNamespaceId(namespaceId);
+            // 使用 "@@" 作为切割符号来获取组名称
             service.setGroupName(NamingUtils.getGroupName(serviceName));
             // now validate the service. if failed, exception will be thrown
             service.setLastModifiedMillis(System.currentTimeMillis());
@@ -481,10 +483,12 @@ public class ServiceManager implements RecordListener<Service> {
                 cluster.setService(service);
                 service.getClusterMap().put(cluster.getName(), cluster);
             }
+            // 名称合法性校验
             service.validate();
-            
+            // 保存当前 service 到 serviceMap 注册表
             putServiceAndInit(service);
             if (!local) {
+                // 持久化实例会执行这一步
                 addOrReplaceService(service);
             }
         }

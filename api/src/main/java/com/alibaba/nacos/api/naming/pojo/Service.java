@@ -35,7 +35,7 @@ public class Service implements Serializable {
     private static final long serialVersionUID = -3470985546826874460L;
     
     /**
-     * service name.
+     * service name. 组名称@@服务名称
      */
     private String name;
     
